@@ -28,7 +28,7 @@ def main():
     num_matches = query.num_jobs
     num_pages = (num_matches // 11)
     print("A total of {} matches have been found".format(num_matches))
-    for i in range(1):
+    for i in range(num_pages):
         print("Extracting data: page ({}/{})".format(i+1, num_pages))
         query.parse_soup()
         url_maker.next_page()
@@ -61,9 +61,9 @@ def main():
         print("An error has occurred in writing the file. ")
         print("Make sure the directory you provided is correct.")
         print("If you are using Windows, please ensure you are escaping the slashes.")
-    finally:
-        if f:
-            f.close()
+    # finally:
+    #     if f:
+    #         f.close()
 
 if __name__ == "__main__":
     main()
