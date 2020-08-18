@@ -22,6 +22,7 @@ class urlMaker(object):
         self.job_title = params["job_title"]
         self.location = params["location"]
         self.radius = params["radius"]
+        self.age = params["age"]
         self.job_type = job_type_tokenizer(params["job_type"])
         self.url = ""
         
@@ -35,6 +36,8 @@ class urlMaker(object):
             link.append("&radius="+str(self.radius))
         if self.job_type != "":
             link.append("&jt="+self.job_type)
+        # if self.age != 0:
+        #     link.append("&fromage="+self.age)
         link.append("&start=0")
         self.url = "".join(link)
         

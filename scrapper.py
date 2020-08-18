@@ -38,6 +38,15 @@ class Query(object):
         self.num_jobs = self.find_total_matches()
         self.counter = 0
         
+    def __add__(self, other):
+        copy = self.copy()
+        copy.update(other)
+        return copy
+
+    def __radd__(self, other):
+        copy = other.copy()
+        copy.update(self)
+        return copy
     
     def update_soup(self, url):
         """Updates the soup instance variable using the given URL
@@ -78,38 +87,37 @@ class Query(object):
         """Parses the soup instance variable to populate the data instance variable with job postings"""
         results = self.soup.find(id="resultsCol")
         job_elems = results.find_all("div", class_="jobsearch-SerpJobCard unifiedRow row result")
+        # Defining dictionary keys for a future JSON export
+        keys = ['jobID', 'jobTitle', 'employer', 'location', 'url', 'jobDescription','collectedDate']
         for job_elem in job_elems:
             self.counter += 1
             job_collect_date = datetime.datetime.now()
+            part_date = job_collect_date.strftime("%Y%m%d")
             job_collect_date = job_collect_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")
             job_id = job_elem.get("data-jk")
             job_title = ((job_elem.find("h2")).find("a")).get("title")
-            #job_title = "'"+((job_elem.find("h2")).find("a")).get("title")+"'"
-            #print("Processing {} - {}".format(job_id, job_title))
             job_link = ((job_elem.find("h2")).find("a")).get("href")
             job_link = "https://ca.indeed.com" + job_link
             job_employer = ((job_elem.find("div", attrs={"class":"sjcl"})).find("span", attrs={"class":"company"})).text.strip("\n")
-            #job_employer = "'" + job_employer + "'"
             job_location = ((job_elem.find("div", attrs={"class":"sjcl"})).find("div", attrs={"class":"recJobLoc"})).get("data-rc-loc")
-            #job_location = "'" + job_location + "'"
-            # job_summary = job_elem.find("div", attrs={"class":"summary"}).text.strip('\n')
-            # job_summary = "'" + job_summary + "'"
             job_description = ""
             job_description = parse_job_description(detail_url=job_link)
             job_description = job_description.strip('\n\n\n\n')
-            self.data[self.counter] = {"job_id":job_id, "job_title":job_title, "job_employer":job_employer, 
-                                 "job_location":job_location, "job_link":job_link, 
-                                 "job_description":job_description, "job_collect_date":job_collect_date}
+            allJobValues = [job_id, job_title, job_employer, job_location, job_link, job_description, job_collect_date]
+            self.data[part_date+str(self.counter)] = dict(zip(keys, allJobValues))
+            # self.data[part_date+str(self.counter)] = {job_id, job_title, job_employer, 
+            #                    job_location, job_link, job_description, job_collect_date}
+            
         
     def __str__(self):
         """Converts the data of the Query into a csv format
-        
+
         Returns:
             A string specifying the query data in csv format
         """
-        CSV ="\n".join([k+'|-@|'+'|-@|'.join(v) for k,v in self.data.items()])
-        #JSON = "\n".
-        # JSON = ",".join([k+':'+''.join(v) for k,v in self.data.items()])
+        CSV ="\n".join([k+'\t'+'\t'.join(v) for k,v in self.data.items()])
+        #CSV ="\n".join([k+'||'+'||'.join(v) for k,v in self.data.items()]).join("\n")
+        #CSV ="\n".join([k+','+','.join(v) for k,v in self.data.items()])
         return CSV
     
 def main():
