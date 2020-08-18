@@ -88,7 +88,7 @@ class Query(object):
         results = self.soup.find(id="resultsCol")
         job_elems = results.find_all("div", class_="jobsearch-SerpJobCard unifiedRow row result")
         # Defining dictionary keys for a future JSON export
-        keys = ['jobID', 'jobTitle', 'employer', 'location', 'url', 'jobDescription','collectedDate']
+        keys = ["jobID", "jobTitle", "employer", "location", "url", "jobDescription","collectDate"]
         for job_elem in job_elems:
             self.counter += 1
             job_collect_date = datetime.datetime.now()
@@ -115,9 +115,9 @@ class Query(object):
         Returns:
             A string specifying the query data in csv format
         """
-        CSV ="\n".join([k+'\t'+'\t'.join(v) for k,v in self.data.items()])
-        #CSV ="\n".join([k+'||'+'||'.join(v) for k,v in self.data.items()]).join("\n")
-        #CSV ="\n".join([k+','+','.join(v) for k,v in self.data.items()])
+        # use when need a TSV file
+        # CSV ="\n".join([k+'\t'+'\t'.join(v) for k,v in self.data.items()])
+        CSV ="\n".join([k+','+','.join(v) for k,v in self.data.items()])
         return CSV
     
 def main():

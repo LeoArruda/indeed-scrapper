@@ -1,5 +1,5 @@
 """This module allows the creation and parsing of Indeed.com URLs"""
-
+import json
 from pymongo import MongoClient
 
 
@@ -27,5 +27,7 @@ class dbAccess(object):
         self.radius = params["radius"]
         self.job_type = job_type_tokenizer(params["job_type"])
         self.url = ""
+
+    
         
     
