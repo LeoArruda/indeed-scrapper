@@ -103,7 +103,7 @@ class Query(object):
             job_description = ""
             job_description = parse_job_description(detail_url=job_link)
             job_description = job_description.strip('\n\n\n\n')
-            allJobValues = [job_id, job_title, job_employer, job_location, job_link, job_description, job_collect_date, "Indeed"]
+            allJobValues = [job_id, job_title, job_employer, job_location, job_link, job_description, job_collect_date]
             self.data[part_date+str(self.counter)] = dict(zip(keys, allJobValues))
             # self.data[part_date+str(self.counter)] = {job_id, job_title, job_employer, 
             #                    job_location, job_link, job_description, job_collect_date}
