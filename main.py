@@ -26,7 +26,8 @@ def main(keyword='', location=''):
     JOB_RADIUS = config['DEFAULT']['RADIUS']
     JOB_TYPE = config['DEFAULT']['JOB_TYPE']
     JOB_AGE = config['DEFAULT']['JOB_AGE']
-    FILE_DESTINATION = config['DEFAULT']['FILE_DESTINATION'].strip('"')
+    FILE_DESTINATION = config['DEFAULT']['FILE_DESTINATION']
+    FILE_DESTINATION = FILE_DESTINATION.strip("'").strip('"')
     timeStr = time.strftime("%Y%m%d-%H%M%S")
     try:
         JOB_RADIUS = int(JOB_RADIUS)
@@ -78,7 +79,8 @@ if __name__ == "__main__":
     if args.k:
         keyword=args.k.replace(" ", "+")
     if args.l:
-        locale=args.l.replace(" ", "+")
+        #location=args.l.replace(" ", "+")
+        location=args.l
         main(keyword, location)
     else:
         main(keyword)

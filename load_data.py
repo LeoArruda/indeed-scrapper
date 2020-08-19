@@ -38,7 +38,6 @@ def moveFilesTo(source, dest):
         logging.error('Error: {}'.format(e))
 
 def ingestData(filename, dbUrl, dbUser, dbPass):
-    print(dbUrl, dbUser, dbPass)
     try:
         with open(filename) as f:
             data = json.load(f)
