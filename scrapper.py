@@ -88,7 +88,7 @@ class Query(object):
         results = self.soup.find(id="resultsCol")
         job_elems = results.find_all("div", class_="jobsearch-SerpJobCard unifiedRow row result")
         # Defining dictionary keys for a future JSON export
-        keys = ["jobID", "jobTitle", "employer", "location", "url", "jobDescription","collectDate"]
+        keys = ["jobID", "jobTitle", "employer", "location", "url", "jobDescription","collectDate", "source"]
         for job_elem in job_elems:
             self.counter += 1
             job_collect_date = datetime.datetime.now()
@@ -103,7 +103,7 @@ class Query(object):
             job_description = ""
             job_description = parse_job_description(detail_url=job_link)
             job_description = job_description.strip('\n\n\n\n')
-            allJobValues = [job_id, job_title, job_employer, job_location, job_link, job_description, job_collect_date]
+            allJobValues = [job_id, job_title, job_employer, job_location, job_link, job_description, job_collect_date, "Indeed"]
             self.data[part_date+str(self.counter)] = dict(zip(keys, allJobValues))
             # self.data[part_date+str(self.counter)] = {job_id, job_title, job_employer, 
             #                    job_location, job_link, job_description, job_collect_date}

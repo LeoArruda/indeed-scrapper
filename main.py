@@ -5,13 +5,24 @@ import configparser
 import time
 import json
 import csv
+import argparse
 
 
-def main():
+def main(keyword='', location=''):
+    print('Key: {}'.format(keyword))
+    print('Location: {}'.format(location))
     config = configparser.ConfigParser()
     config.read('./config.ini')
-    JOB_TITLE = config['DEFAULT']['JOB_TITLE']
-    JOB_LOCATION = config['DEFAULT']['LOCATION']
+    if keyword:
+        JOB_TITLE = keyword
+    else:
+        JOB_TITLE = config['DEFAULT']['JOB_TITLE']
+    
+    if location:
+        JOB_LOCATION = location
+    else:
+        JOB_LOCATION = config['DEFAULT']['LOCATION']
+    print(JOB_TITLE, JOB_LOCATION)
     JOB_RADIUS = config['DEFAULT']['RADIUS']
     JOB_TYPE = config['DEFAULT']['JOB_TYPE']
     JOB_AGE = config['DEFAULT']['JOB_AGE']
@@ -33,6 +44,9 @@ def main():
     query = scrapper.Query(url_maker.url)
     num_matches = query.num_jobs
     num_pages = (num_matches // 11)
+    if num_pages == 0:
+        num_pages = 1
+
     print("A total of {} matches have been found".format(num_matches))
     for i in range(num_pages):
         print("Extracting data: page ({}/{})".format(i+1, num_pages))
@@ -57,5 +71,18 @@ def main():
     #         f.close()
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Job Scraper Tool')    
+    parser.add_argument('--k', required=True, help="The parameter --k  <keyword(s)> to query the job. i.e. 'Data Engineer'")
+    parser.add_argument('--l', nargs='?', help="The parameter --l  <location> to query the job. i.e. --l 'New York'")
+    args = parser.parse_args()
+    if args.k:
+        keyword=args.k.replace(" ", "+")
+    if args.l:
+        locale=args.l.replace(" ", "+")
+        main(keyword, location)
+    else:
+        main(keyword)
+    #print(args.l)
+
+    
 

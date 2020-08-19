@@ -36,8 +36,9 @@ class urlMaker(object):
             link.append("&radius="+str(self.radius))
         if self.job_type != "":
             link.append("&jt="+self.job_type)
-        # if self.age != 0:
-        #     link.append("&fromage="+self.age)
+        if self.age != 0:
+            link.append("&fromage="+str(self.age))
+
         link.append("&start=0")
         self.url = "".join(link)
         
