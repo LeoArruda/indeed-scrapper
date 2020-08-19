@@ -1,0 +1,17 @@
+[DEFAULT]
+JOB_TITLE = 'data+engineer'
+LOCATION = 'Toronto'
+RADIUS = 50
+JOB_TYPE = ''
+JOB_AGE = 1
+FILE_DESTINATION = './indeed_files/'
+
+[INGEST]
+SOURCE_LOCATION = './indeed_files'
+ARCHIVE_LOCATION = './archive'
+
+[DATABASE]
+URL = 'mongodb+srv://<REPLACE WITH YOUR URI>.rhjcr.azure.mongodb.net/<Database>?retryWrites=true&w=majority'
+USER = '<Username>'
+PASSWD = '<Password>'
+COLLECTION = '<Collection>'
