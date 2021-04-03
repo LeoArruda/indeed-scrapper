@@ -1,4 +1,5 @@
 testdb.py
+config.ini
 *.ini
 
 # Byte-compiled / optimized / DLL files
